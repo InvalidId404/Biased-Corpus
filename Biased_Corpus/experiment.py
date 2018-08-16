@@ -36,36 +36,43 @@ def extract(corpus_1, corpus_2, rate, sample):
     return result
 
 
-set_normal = extract(positive_samples_train, negative_samples_train, 0.5, 10000)
-set_a = extract(positive_samples_train, negative_samples_train, 0.7, 10000)
-set_b = extract(positive_samples_train, negative_samples_train, 0.3, 10000)
+set_normal = extract(positive_samples_train, negative_samples_train, 0.5, 50000)
+set_a = extract(positive_samples_train, negative_samples_train, 0.9, 50000)
+set_a_2 = extract(positive_samples_train, negative_samples_train, 0.7, 50000)
+set_b = extract(positive_samples_train, negative_samples_train, 0.1, 50000)
+set_b_2 = extract(positive_samples_train, negative_samples_train, 0.3, 50000)
 
 model_normal = Word2Vec(sentences=set_normal, window=3)
 model_a = Word2Vec(sentences=set_a, window=3)
+model_a_2 = Word2Vec(sentences=set_a_2, window=3)
 model_b = Word2Vec(sentences=set_b, window=3)
+model_b_2 = Word2Vec(sentences=set_b_2, window=3)
 
-words_to_compare = ['눈물', '곰', '개', '충격']
+words_to_compare = ['초딩', '반전', '개', '매력']
 
 result = lambda model: [model.most_similar(word, topn=5) for word in words_to_compare]
-string = '%d) %s의 결과' \
-         '1. %s와 가까운 단어: %s, %s, %s, %s, %s' \
-         '2. %s와 가까운 단어: %s, %s, %s, %s, %s' \
-         '3. %s와 가까운 단어: %s, %s, %s, %s, %s' \
-         '4. %s와 가까운 단어: %s, %s, %s, %s, %s'
+string = '{0}의 결과\n' \
+         '1. {1}와 가까운 단어: {2}, {3}, {4}, {5}, {6}\n' \
+         '2. {7}와 가까운 단어: {8}, {9}, {10}, {11}, {12}\n' \
+         '3. {13}와 가까운 단어: {14}, {15}, {16}, {17}, {18}\n' \
+         '4. {19}와 가까운 단어: {20}, {21}, {22}, {23}, {24}\n'
 
 
-def print_result(model, time, model_name):
+def print_result(model, model_name):
     experiment = result(model)
-    arg = [time, model_name]
+    arg = [model_name]
     for i, word in enumerate(words_to_compare):
         arg.append(word)
-        arg.append(*experiment[i])
-    print(string %arg)
+        for r in experiment[i]:
+            arg.append(r[0])
+    print(string.format(*arg))
 
 
-print_result(model_normal, 1, '대조군')
-print_result(model_a, 2, '실험군 a')
-print_result(model_b, 3, '실험군 b')
+print_result(model_normal, '대조군')
+print_result(model_a, '실험군 a')
+print_result(model_a_2, '실험군 a_2')
+print_result(model_b, '실험군 b')
+print_result(model_b_2, '실험군 b_2')
 
 
 
