@@ -40,8 +40,3 @@ set_a = extract(positive_samples_train, negative_samples_train, 0.9, 50000)
 set_a_2 = extract(positive_samples_train, negative_samples_train, 0.7, 50000)
 set_b_2 = extract(positive_samples_train, negative_samples_train, 0.9, 50000)
 set_b = extract(positive_samples_train, negative_samples_train, 0.1, 50000)
-
-embedding_size = 100
-sequence_length =
-
-conv_1 =
