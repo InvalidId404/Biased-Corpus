@@ -1,4 +1,5 @@
-
+from InvalidNN import invalidnn_new as inv
+from InvalidNN.utill import test
 from konlpy.tag import Okt
 from gensim.models.word2vec import Word2Vec
 from random import choice
@@ -79,6 +80,7 @@ result = []
 for e, experiment in enumerate((set_normal, set_a, set_b)):
     result.append([e, test.test_model(classifier, experiment)])
 print(result)
+
 """
 classifier.train(
     training_dataset=train_set,
